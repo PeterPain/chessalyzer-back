@@ -8,11 +8,13 @@ export class AppService {
 
 	async analyze() {
 		const Chessalyzer = require('chessalyzer.js');
+		const CustomTracker = require('../src/CustomTracker');
 		const { Tracker } = Chessalyzer;
 
 		const a = new Tracker.Game();
 		const b = new Tracker.Piece();
 		const c = new Tracker.Tile();
+		const d = new CustomTracker.MyCustomTracker();
 		let fun = (data, sqrData, loopSqrData) => {
 			let val = 0;
 			const { coords } = sqrData;
@@ -26,7 +28,7 @@ export class AppService {
 		};
 		await Chessalyzer.startBatchMultiCore(
 			'./test/lichess_db_standard_rated_2013-12.pgn',
-			[c],
+			[c, d],
 			{
 				cntGames: 100000
 			}

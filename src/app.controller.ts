@@ -7,7 +7,6 @@ export class AppController {
 
 	@Get()
 	async analyze(): Promise<any> {
-		const data = await this.appService.analyze();
-		return data;
+		return await this.appService.analyze();
 	}
 }

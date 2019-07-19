@@ -6,7 +6,7 @@ export class AppController {
 	constructor(private readonly appService: AppService) {}
 
 	@Get()
-	async analyze(): Promise<any> {
-		return await this.appService.analyze();
+	greet(): string {
+		return this.appService.greet();
 	}
 }

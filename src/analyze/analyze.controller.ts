@@ -16,7 +16,7 @@ export class AnalyzeController {
 	}
 
 	@Get('heatmaps')
-	getHeatmaps(): Array<string> {
+	getHeatmaps(): Array<object> {
 		return this.analyzeService.getAvailableHeatmaps();
 	}
 

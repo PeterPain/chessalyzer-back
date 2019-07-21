@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import * as Chessalyzer from 'chessalyzer.js';
 import * as Heatmaps from './HeatmapConfig.js';
 
+const crypto = require('crypto');
+
 @Injectable()
 export class AnalyzeService {
 	private Trackers: object;
@@ -26,8 +28,17 @@ export class AnalyzeService {
 		return Object.keys(this.Trackers);
 	}
 
-	getAvailableHeatmaps(): Array<string> {
-		return Object.keys(Heatmaps);
+	getAvailableHeatmaps(): Array<object> {
+		const heatmaps = [];
+		Object.keys(Heatmaps).forEach(h => {
+			const obj = {};
+			obj['short_name'] = h;
+			obj['long_name'] = Heatmaps[h]['long_name'];
+			obj['scope'] = Heatmaps[h]['scope'];
+			obj['unit'] = Heatmaps[h]['unit'];
+			heatmaps.push(obj);
+		});
+		return heatmaps;
 	}
 
 	// return a list of all available trackers
@@ -38,6 +49,7 @@ export class AnalyzeService {
 			const obj = {};
 			obj['cntMoves'] = entry['cntMoves'];
 			obj['cntGames'] = entry['cntGames'];
+			obj['name'] = entry['name'];
 			obj['trackers'] = Object.keys(entry['trackerData']);
 			info.push(obj);
 		});
@@ -65,11 +77,15 @@ export class AnalyzeService {
 			}
 		);
 
+		const name = crypto.randomBytes(3).toString('hex');
+		console.log(name);
+
 		// add to db
 		const analysis: object = {};
-		analysis['trackerData'] = {};
+		analysis['name'] = name;
 		analysis['cntGames'] = result.cntGames;
 		analysis['cntMoves'] = result.cntMoves;
+		analysis['trackerData'] = {};
 		trackerArray.forEach(t => {
 			analysis['trackerData'][t.constructor.name] = t;
 		});

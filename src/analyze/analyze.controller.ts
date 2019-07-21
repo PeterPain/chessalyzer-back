@@ -15,6 +15,11 @@ export class AnalyzeController {
 		return this.analyzeService.getDbInfo();
 	}
 
+	@Get('heatmaps')
+	getHeatmaps(): Array<string> {
+		return this.analyzeService.getAvailableHeatmaps();
+	}
+
 	@Post('runbatch')
 	async analyze(
 		@Body('path') path: string,
@@ -23,12 +28,12 @@ export class AnalyzeController {
 		return await this.analyzeService.analyze(path, trackers, 100000);
 	}
 
-	@Post('getheatmap')
-	getHeatmap(
+	@Post('generateheatmap')
+	generateHeatmap(
 		@Body('id') id: number,
 		@Body('name') name: string,
 		@Body('square') square: string
 	): Array<Array<number>> {
-		return this.analyzeService.getHeatmap(id, name, square);
+		return this.analyzeService.generateHeatmap(id, name, square);
 	}
 }

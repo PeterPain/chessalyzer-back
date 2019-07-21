@@ -26,6 +26,10 @@ export class AnalyzeService {
 		return Object.keys(this.Trackers);
 	}
 
+	getAvailableHeatmaps(): Array<string> {
+		return Object.keys(Heatmaps);
+	}
+
 	// return a list of all available trackers
 	getDbInfo(): Array<object> {
 		const info = [];
@@ -40,6 +44,7 @@ export class AnalyzeService {
 		return info;
 	}
 
+	// main analysis function
 	async analyze(
 		path: string,
 		trackers: Array<string>,
@@ -74,7 +79,7 @@ export class AnalyzeService {
 		return this.db.length - 1;
 	}
 
-	getHeatmap(id: number, name: string, square: string) {
+	generateHeatmap(id: number, name: string, square: string) {
 		const { type, calc } = Heatmaps[name];
 		const tracker = this.db[id]['trackerData'][type];
 		return Chessalyzer.generateHeatmap(tracker, square, calc);

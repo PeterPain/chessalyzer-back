@@ -78,7 +78,6 @@ export class AnalyzeService {
 		);
 
 		const name = crypto.randomBytes(3).toString('hex');
-		console.log(name);
 
 		// add to db
 		const analysis: object = {};

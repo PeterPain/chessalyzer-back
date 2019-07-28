@@ -1,4 +1,4 @@
-import { Controller, Get, Body, Post } from '@nestjs/common';
+import { Controller, Get, Body, Post, Delete, Param } from '@nestjs/common';
 import { AnalyzeService } from './analyze.service';
 
 @Controller('analyze')
@@ -13,6 +13,12 @@ export class AnalyzeController {
 	@Get('db')
 	getDbInfo(): Array<object> {
 		return this.analyzeService.getDbInfo();
+	}
+
+	@Delete(':id')
+	deleteEntry(@Param('id') id: number) {
+		this.analyzeService.deleteEntry(id);
+		return null;
 	}
 
 	@Get('heatmaps')

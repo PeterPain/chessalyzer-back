@@ -55,6 +55,10 @@ export class AnalyzeService {
 		return info;
 	}
 
+	deleteEntry(id: number) {
+		this.db.splice(id, 1);
+	}
+
 	// main analysis function
 	async analyze(
 		path: string,
@@ -63,6 +67,7 @@ export class AnalyzeService {
 		nGames: number,
 		f: object
 	): Promise<number> {
+		// build filter function
 		const filter = this.buildFilter(f);
 
 		// create new trackers
@@ -91,7 +96,6 @@ export class AnalyzeService {
 		trackerArray.forEach(t => {
 			analysis['trackerData'][t.constructor.name] = t;
 		});
-
 		this.db.push(analysis);
 
 		return this.db.length - 1;
@@ -120,7 +124,11 @@ export class AnalyzeService {
 
 	buildFilter(filter): object {
 		return game => {
-			if (game.Variant !== 'Standard') return false;
+			if (
+				Object.prototype.hasOwnProperty.call(game, 'Variant') &&
+				game.Variant !== 'Standard'
+			)
+				return false;
 
 			if (filter.whitePlayer !== '' && game.White !== filter.whitePlayer)
 				return false;
@@ -146,7 +154,6 @@ export class AnalyzeService {
 			});
 			if (!validResult) return false;
 
-			// console.log(game);
 			return true;
 		};
 	}

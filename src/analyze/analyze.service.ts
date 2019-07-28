@@ -86,7 +86,7 @@ export class AnalyzeService {
 		analysis['name'] = name;
 		analysis['cntGames'] = result.cntGames;
 		analysis['cntMoves'] = result.cntMoves;
-		analysis['filter'] = filter;
+		analysis['filter'] = f;
 		analysis['trackerData'] = {};
 		trackerArray.forEach(t => {
 			analysis['trackerData'][t.constructor.name] = t;

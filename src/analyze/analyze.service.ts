@@ -97,14 +97,31 @@ export class AnalyzeService {
 		return this.db.length - 1;
 	}
 
-	generateHeatmap(id: number, name: string, square: string) {
+	generateHeatmap(id: Array<number>, name: string, square: string) {
 		const { type, calc } = Heatmaps[name];
-		const tracker = this.db[id]['trackerData'][type];
-		return Chessalyzer.generateHeatmap(tracker, square, calc);
+
+		let heatmap;
+		if (id.length === 1) {
+			const tracker = this.db[id[0]]['trackerData'][type];
+			heatmap = Chessalyzer.generateHeatmap(tracker, square, calc);
+		} else {
+			const tracker1 = this.db[id[0]]['trackerData'][type];
+			const tracker2 = this.db[id[1]]['trackerData'][type];
+			heatmap = Chessalyzer.generateComparisonHeatmap(
+				tracker1,
+				tracker2,
+				square,
+				calc
+			);
+		}
+
+		return heatmap;
 	}
 
 	buildFilter(filter): object {
 		return game => {
+			if (game.Variant !== 'Standard') return false;
+
 			if (filter.whitePlayer !== '' && game.White !== filter.whitePlayer)
 				return false;
 

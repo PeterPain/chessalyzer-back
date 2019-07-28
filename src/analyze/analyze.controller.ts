@@ -39,7 +39,7 @@ export class AnalyzeController {
 
 	@Post('generateheatmap')
 	generateHeatmap(
-		@Body('id') id: number,
+		@Body('id') id: Array<number>,
 		@Body('name') name: string,
 		@Body('square') square: string
 	): Array<Array<number>> {

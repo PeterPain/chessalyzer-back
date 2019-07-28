@@ -23,9 +23,18 @@ export class AnalyzeController {
 	@Post('runbatch')
 	async analyze(
 		@Body('path') path: string,
-		@Body('trackers') trackers: Array<string>
+		@Body('name') name: string,
+		@Body('trackers') trackers: Array<string>,
+		@Body('nGames') nGames: number,
+		@Body('filter') filter: object
 	): Promise<number> {
-		return await this.analyzeService.analyze(path, trackers, 100000);
+		return await this.analyzeService.analyze(
+			path,
+			name,
+			trackers,
+			nGames,
+			filter
+		);
 	}
 
 	@Post('generateheatmap')

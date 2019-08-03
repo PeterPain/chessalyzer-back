@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import * as Chessalyzer from 'chessalyzer.js';
 import * as Heatmaps from './HeatmapConfig.js';
 
+const fs = require('fs');
+
+const pgnDir = './pgn';
+
 @Injectable()
 export class AnalyzeService {
 	private Trackers: object;
@@ -55,6 +59,11 @@ export class AnalyzeService {
 		return info;
 	}
 
+	getAvailableFiles(): Array<string> {
+		const files = fs.readdirSync(pgnDir);
+		return files;
+	}
+
 	deleteEntry(id: number) {
 		this.db.splice(id, 1);
 	}
@@ -78,7 +87,7 @@ export class AnalyzeService {
 
 		// analyze
 		const result = await Chessalyzer.startBatchMultiCore(
-			path,
+			pgnDir + '/' + path,
 			trackerArray,
 			{
 				cntGames: nGames,

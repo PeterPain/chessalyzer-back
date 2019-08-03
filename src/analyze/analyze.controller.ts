@@ -15,6 +15,11 @@ export class AnalyzeController {
 		return this.analyzeService.getDbInfo();
 	}
 
+	@Get('files')
+	getAvailableFiles(): Array<string> {
+		return this.analyzeService.getAvailableFiles();
+	}
+
 	@Delete(':id')
 	deleteEntry(@Param('id') id: number) {
 		this.analyzeService.deleteEntry(id);

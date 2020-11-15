@@ -17,7 +17,7 @@ export class AnalyzeService {
 
 		// build the tracker list; key = Class name of Tracker
 		this.Trackers = {};
-		Object.keys(baseTrackers).forEach(key => {
+		Object.keys(baseTrackers).forEach((key) => {
 			this.Trackers[baseTrackers[key].name] = baseTrackers[key];
 		});
 
@@ -32,7 +32,7 @@ export class AnalyzeService {
 
 	getAvailableHeatmaps(): Array<object> {
 		const heatmaps = [];
-		Object.keys(Heatmaps).forEach(h => {
+		Object.keys(Heatmaps).forEach((h) => {
 			const obj = {};
 			obj['short_name'] = h;
 			obj['long_name'] = Heatmaps[h]['long_name'];
@@ -47,7 +47,7 @@ export class AnalyzeService {
 	getDbInfo(): Array<object> {
 		const info = [];
 
-		this.db.forEach(entry => {
+		this.db.forEach((entry) => {
 			const obj = {};
 			obj['cntMoves'] = entry['cntMoves'];
 			obj['cntGames'] = entry['cntGames'];
@@ -81,7 +81,7 @@ export class AnalyzeService {
 
 		// create new trackers
 		const trackerArray: Array<any> = [];
-		trackers.forEach(t => {
+		trackers.forEach((t) => {
 			trackerArray.push(new this.Trackers[t]());
 		});
 
@@ -91,7 +91,7 @@ export class AnalyzeService {
 			trackerArray,
 			{
 				cntGames: nGames,
-				filter
+				filter,
 			}
 		);
 
@@ -102,7 +102,7 @@ export class AnalyzeService {
 		analysis['cntMoves'] = result.cntMoves;
 		analysis['filter'] = f;
 		analysis['trackerData'] = {};
-		trackerArray.forEach(t => {
+		trackerArray.forEach((t) => {
 			analysis['trackerData'][t.constructor.name] = t;
 		});
 		this.db.push(analysis);
@@ -132,7 +132,7 @@ export class AnalyzeService {
 	}
 
 	buildFilter(filter): object {
-		return game => {
+		return (game) => {
 			if (
 				Object.prototype.hasOwnProperty.call(game, 'Variant') &&
 				game.Variant !== 'Standard'
@@ -158,7 +158,7 @@ export class AnalyzeService {
 				return false;
 
 			let validResult = false;
-			filter.result.forEach(res => {
+			filter.result.forEach((res) => {
 				if (game.Result === res) validResult = true;
 			});
 			if (!validResult) return false;

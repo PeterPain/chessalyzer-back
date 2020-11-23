@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import * as Chessalyzer from 'chessalyzer.js';
+import { Chessalyzer, Tracker } from 'chessalyzer.js';
 import * as Heatmaps from './HeatmapConfig.js';
 
 const fs = require('fs');
@@ -12,13 +12,10 @@ export class AnalyzeService {
 	private db: Array<object>;
 
 	constructor() {
-		// get the base trackers
-		const baseTrackers = Chessalyzer.Tracker;
-
 		// build the tracker list; key = Class name of Tracker
 		this.Trackers = {};
-		Object.keys(baseTrackers).forEach((key) => {
-			this.Trackers[baseTrackers[key].name] = baseTrackers[key];
+		Object.keys(Tracker).forEach((key) => {
+			this.Trackers[Tracker[key].name] = Tracker[key];
 		});
 
 		// init db (TODO: load saved db)
@@ -112,14 +109,16 @@ export class AnalyzeService {
 
 	generateHeatmap(id: Array<number>, name: string, square: string) {
 		const { type, calc } = Heatmaps[name];
-
 		let heatmap;
+
 		if (id.length === 1) {
 			const tracker = this.db[id[0]]['trackerData'][type];
 			heatmap = Chessalyzer.generateHeatmap(tracker, square, calc);
 		} else {
 			const tracker1 = this.db[id[0]]['trackerData'][type];
 			const tracker2 = this.db[id[1]]['trackerData'][type];
+			console.log(tracker1);
+			console.log(tracker2);
 			heatmap = Chessalyzer.generateComparisonHeatmap(
 				tracker1,
 				tracker2,
